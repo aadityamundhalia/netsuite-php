@@ -44,6 +44,10 @@ class NetSuiteClient
      */
     public function __construct($config, $options = array(), $client = null)
     {
+        if(empty($config->host))
+        {
+            $config = $this->createFromEnv();
+        }
         $this->config = $config;
         $options = $this->createOptions($this->config, $options);
         $wsdl = $this->createWsdl($this->config);
@@ -55,12 +59,12 @@ class NetSuiteClient
         $config = array(
             'endpoint' => getenv('NETSUITE_ENDPOINT') ?: '2017_1',
             'host' => getenv('NETSUITE_HOST') ?: 'https://webservices.sandbox.netsuite.com',
-            'email' => getenv('NETSUITE_EMAIL'),
-            'password' => getenv('NETSUITE_PASSWORD'),
+            'email' => getenv('NETSUITE_EMAIL') ?: 'admin@example.com',
+            'password' => getenv('NETSUITE_PASSWORD') ?: 'xxxxxxxxxxx',
             'role' => getenv('NETSUITE_ROLE') ?: '3',
-            'account' => getenv('NETSUITE_ACCOUNT'),
+            'account' => getenv('NETSUITE_ACCOUNT') ?: '123456_AB1',
             'app_id' => getenv('NETSUITE_APP_ID') ?: '4AD027CA-88B3-46EC-9D3E-41C6E6A325E2',
-            'logging' => getenv('NETSUITE_LOGGING'),
+            'logging' => getenv('NETSUITE_LOGGING') ?: false,
             'log_path' => getenv('NETSUITE_LOG_PATH'),
         );
 
